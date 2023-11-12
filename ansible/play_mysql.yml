@@ -1,0 +1,80 @@
+---
+ - name: MySQL Server Management Using Ansible
+   become: yes
+   hosts: ubuntusrv
+   collections:
+    - community.mysql
+
+   vars_files:
+    - vars.yml
+
+   vars:
+     service_name: "{{ 'mysql' if ansible_distribution|lower in ['debian', 'ubuntu'] else 'mysqld' }}"
+     python_mysql: "{{ 'python3-mysqldb' if ansible_distribution|lower in ['debian', 'ubuntu'] else 'python3-PyMySQL' }}"
+
+   tasks:
+     - name: Determine package manager
+       ansible.builtin.set_fact:
+         package_manager: "{{ 'apt' if ansible_distribution|lower in ['debian', 'ubuntu'] else 'yum' }}"
+
+     - name: Installing MySQL and Required dependencies
+       package:
+         name: "{{ item }}"
+         state: present
+         update_cache: yes
+       loop:
+         - mysql-server
+
+     - name: Installing python_mysql
+       package:
+         name: "{{ python_mysql }}"
+         state: present
+         update_cache: yes
+
+     - name: Start and enable mysql service
+       service:
+         name: "{{ service_name }}"
+         state: started
+         enabled: yes
+
+     - name: update mysql root password for all root accounts
+       mysql_user:  
+         name: root  
+         host: "{{ item }}"  
+         password: "{{ mysql_root_password }}"  
+         login_user: root
+         login_password: "{{ mysql_root_password }}"  
+         check_implicit_admin: yes  
+         priv: "*.*:ALL,GRANT"  
+       with_items:  
+       - "{{ ansible_hostname }}"  
+       - 127.0.0.1  
+       - ::1  
+       - localhost
+
+     - name: Create a new database with name 'wordpress'
+       mysql_db:
+         name: wordpress
+         state: present
+         login_user: root
+         login_password: "{{ mysql_root_password }}"
+
+     - name: Create database user with password & all database privileges and 'WITH GRANT OPTION'
+       mysql_user:
+         name: "{{ db_user }}"
+         password: "{{ db_password }}"
+         priv: '*.*:ALL,GRANT'
+         host: '%'
+         state: present
+         login_user: root
+         login_password: "{{ mysql_root_password }}"
+
+     - name: Create database user & grant all privileges on the 'wordpress'
+       mysql_user:
+         name: "{{ db_user }}"
+         password: "{{ db_password }}"
+         priv: 'wordpress.*:ALL'
+         host: '%'
+         state: present
+         login_user: root
+         login_password: "{{ mysql_root_password }}"

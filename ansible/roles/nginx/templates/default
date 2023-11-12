@@ -1,0 +1,21 @@
+# Least connections
+
+upstream backend {
+	least_conn;
+	server 158.160.5.195;
+	server 158.160.19.183;
+}
+
+server {
+	listen 80;
+	server_name _;
+
+	root /var/www/html;
+
+	# Add index.php to the list if you are using PHP
+	index index.html index.htm index.nginx-debian.html;
+
+	location / {
+		proxy_pass http://backend;
+	}
+}

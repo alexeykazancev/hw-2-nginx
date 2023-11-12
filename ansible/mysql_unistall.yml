@@ -1,0 +1,38 @@
+---
+- hosts: all
+
+  vars_files:
+    - vars.yml
+  tasks:
+    - name: Removes user1 account
+      mysql_user:
+        name: user1
+        host: '%'
+        state: absent
+        login_user: root
+        login_password: "{{ mysql_root_password }}"
+    - name: Delete database with name 'wordpress'
+      mysql_db:
+        name: wordpress
+        state: absent
+        login_user: root
+        login_password: "{{ mysql_root_password }}"
+    - name: stop mysql
+      service:
+        name: mysql
+        state: stopped
+      become: true
+    - name: ensure mysql-server is not installed
+      apt: 
+        name: mysql-server*
+        state: absent
+        purge: true
+        autoremove: true
+      become: true
+    #- name: ensure mysql-server-core is not installed
+    #  apt: 
+    #    name: mysql-server-core*
+    #    state: absent
+    #    purge: true
+    #    autoremove: true
+    #  become: true
