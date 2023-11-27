@@ -1,0 +1,13 @@
+zone = "ru-central1-b"
+
+cloud_id = ""
+
+folder_id = ""
+
+image_id = "fd8s2aj0vfge6ucq5q96"
+
+yc_token = ""
+
+num = "4"
+
+subnet_id = ""

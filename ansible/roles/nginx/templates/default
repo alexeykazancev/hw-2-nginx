@@ -2,8 +2,8 @@
 
 upstream backend {
 	least_conn;
-	server 158.160.5.195;
-	server 158.160.19.183;
+	server 84.201.141.166;
+	server 84.201.154.100;
 }
 
 server {

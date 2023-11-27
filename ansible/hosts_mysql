@@ -1,0 +1,2 @@
+[ubuntu_servers]
+51.250.106.85 ansible_ssh_user=ubuntu

@@ -1,7 +1,7 @@
 ---
  - name: MySQL Server Management Using Ansible
    become: yes
-   hosts: ubuntusrv
+   hosts: all
    collections:
     - community.mysql
 

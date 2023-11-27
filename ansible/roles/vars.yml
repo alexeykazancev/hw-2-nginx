@@ -1,0 +1,7 @@
+---
+db_user: user1
+db_password: testpas
+db_name: wordpress
+mysql_root_password: "testpas"
+
+php_modules: [ 'php-curl', 'php-gd', 'php-mbstring', 'php-xml', 'php-xmlrpc', 'php-soap', 'php-intl', 'php-zip' ]

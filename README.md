@@ -1,5 +1,26 @@
 # hw-2-nginx
 
+задание:
+    развернуть 4 виртуалки терраформом в яндекс облаке
+    1 виртуалка - Nginx - с публичным IP адресом
+    2 виртуалки - бэкенд на выбор студента ( любое приложение из гитхаба - uwsgi/unicorn/php-fpm/java) + nginx со статикой
+    1 виртуалка с БД на выбор mysql/mongodb/postgres/redis.
+    репозиторий в github: README, схема, манифесты терраформ и ансибл
+    стенд должен разворачиваться с помощью terraform и ansible
+    при отказате (выключение) виртуалки с бекендом система должна продолжать работать
+
+Описание/Пошаговая инструкция выполнения домашнего задания:
+
+В работе должны применяться:
+
+    terraform
+    ansible
+    nginx;
+    uwsgi/unicorn/php-fpm;
+    некластеризованная бд mysql/mongodb/postgres/redis.-
+
+
+
 
 если при выполнении команды terraform init возникает ошибка 
 
@@ -31,3 +52,6 @@ provider_installation {
 при развертывании постгре нужно отдельно вручную задавать пароль на рута
 
 ansible-playbook play_psql.yaml -i hosts_psql --extra-vars "postgres_root_pass=testpas"
+
+
+DB_HOST
