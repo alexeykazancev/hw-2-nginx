@@ -3,5 +3,4 @@
 terraform.tfstate
 terraform.tfstate.backup
 terraform.tfvars
-init_liks
-terraform.tfvars
+ansible/vars.yml
